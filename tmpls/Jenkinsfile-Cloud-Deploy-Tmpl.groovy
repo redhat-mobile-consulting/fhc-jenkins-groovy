@@ -17,14 +17,15 @@ def credentialId=env["Credential Id"]
 def cloudGitUrl=env["Cloud Git Url"]
 //the branch to check out as source branch. e.g. develop
 def branchName=env["Branch Name"]
+//the configured node.js runtime name from node.js plugin in jenkins. Need node.js plugin and configure it in jenkins.
+def nodeName=env["Jenkins Node Name"]
 //rhmap login
 def userLogin=[
   target:env["Domain Url"],
   username: env["FH Login"],
   password: env["FH Password"]
 ]
-//the configured node.js runtime name from node.js plugin in jenkins. Need node.js plugin and configure it in jenkins.
-def nodeName=env["Jenkins Node Name"]
+
 //the cloud app id from RHMAP
 def appId=env["Cloud App Id"]
 //the node.js runtime to be staged to. e.g. node4
