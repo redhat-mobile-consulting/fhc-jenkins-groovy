@@ -7,16 +7,16 @@
     This script does not need user interaction
 */
 
-// Please provide following information
+// Please provide following information in Jenkins Pipeline Parameters
 
 //credentialId is ssh key pairs credential's id stored in jenkins. This can be found (added) in credentials page in jenkins
-def credentialId=""  
+def credentialId=env["Credential Id"] 
 //the git url from RHMAP cloud app
-def cloudGitUrl=""
+def cloudGitUrl=env["Cloud Git Url"]
 //the branch to check out as source branch. e.g. develop
-def branchName=""
+def branchName=env["Branch Name"]
 //the configured node.js runtime name from node.js plugin in jenkins. Need node.js plugin and configure it in jenkins.
-def nodeName=""
+def nodeName=env["Jenkins Node Name"]
 
 
 //Script start 
