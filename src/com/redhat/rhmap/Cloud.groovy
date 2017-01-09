@@ -60,9 +60,10 @@ def release(credentialsId,name, appId, env, runTime){
   def note
   def curCommit="N/A"
   sshagent(["${credentialsId}"]) {
-      env.GIT_SSH_COMMAND="ssh -q"
-      def hasRemote=sh returnStdout: true, script: 'git ls-remote origin ${name}'
-      
+      def hasRemote
+      withEnv(['GIT_SSH_COMMAND="ssh -q"']) {
+          hasRemote=sh returnStdout: true, script: 'git ls-remote origin ${name}'
+      }
       if (hasRemote.size()>0){
           sh "git fetch origin ${name}"
           note=sh returnStdout: true, script: "git shortlog origin/${name}..HEAD"
