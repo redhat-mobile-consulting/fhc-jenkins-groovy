@@ -15,6 +15,12 @@
 def credentialId=""  
 //the git url from RHMAP cloud app
 def cloudGitUrl=""
+//rhmap login
+def userLogin=[
+  target:"<Domain URL>",
+  username: "Username or email that can deploy cloud app",
+  password: "user's password'"
+]
 //the configured node.js runtime name from node.js plugin in jenkins. Need node.js plugin and configure it in jenkins.
 def nodeName=""
 //the cloud app id from RHMAP
@@ -23,7 +29,7 @@ def appId=""
 def runTime=""
 //the list of emails to send the deployment note for reference. multiple emails can be seperated by comma..e.g. aaa@b.com, ccc@b.com
 def mailList=""
-//
+//email subject
 def subject="<Project name> has been deployed to ${env['Target Environment']}"
 //environments on RHMAP. the branchName is which branch to push the new code and envName is environemtn name defined in RHMAP. Change according to real situation.
 def envs=[
@@ -62,6 +68,7 @@ node{
     cloud.setupNode(nodeName)
     cloud.checkoutCode(credentialId, cloudGitUrl, branchName)
     stage "Deploy"
+    cloud.rhmapLogin(userLogin.target,userLogin.username,userLogin.password)
     def releaseNote=cloud.release(credentialId, targetEnv.branchName, appId,targetEnv.envName, runTime)
     stage "Deploy Note"
     cloud.mailRelease(releaseNote, subject, mailList) 

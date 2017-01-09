@@ -28,5 +28,5 @@ node {
         cloud.checkoutCode(credentialId, cloudGitUrl, branchName)
     stage "Build"
         cloud.npmInstall()
-        cloud.npmtest() 
+        cloud.npmTest() 
 }
