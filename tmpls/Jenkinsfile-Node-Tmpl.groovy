@@ -26,8 +26,9 @@ def nodeName=env["Jenkins Node Name"]
 def cmd=env["Command"]
 
 //Script start 
-def cloud = fileLoader.fromGit('cloud.groovy', 
-        'https://github.com/redhat-mobile-consulting/fhc-jenkins-groovy.git', 'master', null, '')
+@Library("rhmap@master")
+import com.redhat.rhmap.Cloud
+def cloud = new Cloud()
 node {
     stage "Prepare"
         cloud.setupNode(nodeName)
