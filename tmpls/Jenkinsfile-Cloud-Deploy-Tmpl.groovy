@@ -20,11 +20,9 @@ def branchName=env["Branch Name"]
 //the configured node.js runtime name from node.js plugin in jenkins. Need node.js plugin and configure it in jenkins.
 def nodeName=env["Jenkins Node Name"]
 //rhmap login
-def userLogin=[
-  target:env["Domain Url"],
-  username: env["FH Login"],
-  password: env["FH Password"]
-]
+def fhTarget=env["Domain Url"]
+
+def fhCredential=env["FH Login"]
 
 //the cloud app id from RHMAP
 def appId=env["Cloud App Id"]
@@ -50,7 +48,14 @@ node{
     cloud.setupNode(nodeName)
     cloud.checkoutCode(credentialId, cloudGitUrl, branchName)
     stage "Deploy"
-    cloud.rhmapLogin(userLogin.target,userLogin.username,userLogin.password)
+     withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: fhCredential,
+                            usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
+        //available as an env variable, but will be masked if you try to print it out any which way
+        cloud.rhmapLogin(fhTarget,USERNAME,PASSWORD)
+        sh 'echo $PASSWORD'
+        echo "${env.USERNAME}"
+    } 
+    
     def releaseNote=cloud.release(credentialId, targetBranch, appId,targetEnv, runTime)
     stage "Deploy Note"
     cloud.mailRelease(releaseNote, subject, mailList) 
