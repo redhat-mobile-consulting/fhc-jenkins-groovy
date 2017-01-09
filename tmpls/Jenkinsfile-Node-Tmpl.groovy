@@ -4,6 +4,7 @@
         * Cloud Git Url
         * Branch Name
         * Jenkins Node Name
+        * Command
     This file is a template groovy script used by Jenkins pipeline.
     It has following steps:
         1. checkout code
@@ -22,7 +23,7 @@ def cloudGitUrl=env["Cloud Git Url"]
 def branchName=env["Branch Name"]
 //the configured node.js runtime name from node.js plugin in jenkins. Need node.js plugin and configure it in jenkins.
 def nodeName=env["Jenkins Node Name"]
-
+def cmd=env["Command"]
 
 //Script start 
 def cloud = fileLoader.fromGit('cloud.groovy', 
@@ -33,5 +34,6 @@ node {
         cloud.checkoutCode(credentialId, cloudGitUrl, branchName)
     stage "Build"
         cloud.npmInstall()
-        cloud.npmTest() 
+        echo "Run ${cmd}"
+        sh cmd 
 }
