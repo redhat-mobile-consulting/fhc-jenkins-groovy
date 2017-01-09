@@ -1,10 +1,15 @@
 /**
+    Parameters (details see below):
+        * Credential Id
+        * Cloud Git Url
+        * Branch Name
+        * Jenkins Node Name
     This file is a template groovy script used by Jenkins pipeline.
     It has following steps:
         1. checkout code
         2. run npm install 
         3. run npm test
-    This script does not need user interaction
+    
 */
 
 // Please provide following information in Jenkins Pipeline Parameters
