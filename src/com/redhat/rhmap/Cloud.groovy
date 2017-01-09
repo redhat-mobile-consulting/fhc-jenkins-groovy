@@ -28,7 +28,7 @@ def npmAcceptTest(){
 def rhmapLogin(target, username, password){
   echo "RHMAP: Login to ${target}"
   sh "fhc target ${target}"
-  sh "fhc login ${username} ${password}"
+  sh "fhc login ${username} ********"
 }
 def pushCode(credentialsId, branchName){
   echo "Push current code base to branch: ${branchName}"
