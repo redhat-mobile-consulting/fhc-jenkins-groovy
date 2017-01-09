@@ -60,7 +60,7 @@ def release(credentialsId,name, appId, env, runTime){
   def note
   def curCommit="N/A"
   sshagent(["${credentialsId}"]) {
-      def hasRemote=sh returnStdout: true, script: 'git ls-remote origin ${name}'
+      def hasRemote=sh returnStdout: true, script: 'GIT_SSH_COMMAND="ssh -q" git ls-remote origin ${name}'
       
       if (hasRemote.size()>0){
           sh "git fetch origin ${name}"
