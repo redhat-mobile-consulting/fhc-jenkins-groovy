@@ -1,3 +1,5 @@
+package com.redhat.rhmap
+
 
 def setupNode(toolName){
   echo "Setup Node.JS"
