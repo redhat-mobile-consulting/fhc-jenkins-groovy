@@ -73,7 +73,7 @@ def emailBuild(emailList, projectName, targetEnv, appId, projectId, buildOutput,
 
  ${buildOutput}  
  """
-  mail bcc:'', body: body, cc: '', from: '', replyTo: '', subject: "[${projectName}] Build android", to: '${emailList}' 
+  mail bcc:'', body: body, cc: '', from: '', replyTo: '', subject: "[${projectName}] Build android", to: "${emailList}" 
 }
 
 def tagCode(tag,credentialId,branchName){
