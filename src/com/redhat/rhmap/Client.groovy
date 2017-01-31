@@ -88,7 +88,7 @@ def tagCode(tag,credentialId,branchName){
         }else{
             note=sh returnStdout: true, script: 'git shortlog HEAD'
         }
-        sh 'git push origin ${branchName}:build'
+        sh "git push origin ${branchName}:build"
         sh "git tag -f ${tag}"
         sh "git push origin ${tag} --force"
     }
