@@ -48,14 +48,7 @@ node{
     cloud.setupNode(nodeName)
     cloud.checkoutCode(credentialId, cloudGitUrl, branchName)
     stage "Deploy"
-     withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: fhCredential,
-                            usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
-        //available as an env variable, but will be masked if you try to print it out any which way
-        cloud.rhmapLogin(fhTarget,USERNAME,PASSWORD)
-        sh 'echo $PASSWORD'
-        echo "${env.USERNAME}"
-    } 
-    
+    cloud.rhmapLogin(fhTarget,fhCredential)
     def releaseNote=cloud.release(credentialId, targetBranch, appId,targetEnv, runTime)
     stage "Deploy Note"
     cloud.mailRelease(releaseNote, subject, mailList) 

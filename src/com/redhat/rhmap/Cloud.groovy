@@ -25,10 +25,13 @@ def npmRun(cmd){
 def npmAcceptTest(){
   npmRun('accept-test')
 }
-def rhmapLogin(target, username, password){
-  echo "RHMAP: Login to ${target}"
-  sh "fhc target ${target}"
-  sh "fhc login ${username} ${password}"
+def rhmapLogin(target, fhCredential){
+    withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: fhCredential,
+                          usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
+      echo "RHMAP: Login to ${target}"
+      sh "fhc target ${target}"
+      sh "fhc login ${USERNAME} ${PASSWORD}"
+  }
 }
 def pushCode(credentialsId, branchName){
   echo "Push current code base to branch: ${branchName}"
