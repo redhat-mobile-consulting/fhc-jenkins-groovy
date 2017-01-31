@@ -31,7 +31,7 @@ def client = new Client()
 node {
     stage "Prepare"
         client.setupNode(nodeName)
-        client.checkoutCode(credentialId, cloudGitUrl, branchName)
+        client.checkoutCode(credentialId, clientGitUrl, branchName)
         client.rhmapLogin(fhTarget,fhCredential)
     stage "Unit Test"
     stage "Build"
