@@ -38,7 +38,7 @@ node {
         def dateTime=new Date().format("yyyyMMddHHmmss")
         def output=client.buildAndroid(appId,projectId,cloudAppId,deployEnv,branchName,dateTime)
         def tag=client.genTag(deployEnv,dateTime,"android")
-        def buildNote=client.tagCode(tag,credentialId)
+        def buildNote=client.tagCode(tag,credentialId,branchName)
         client.emailBuild(emailList,projectName,deployEnv, appId,projectId, output, tag, cloudAppId) 
     stage "User Acceptance Test"
     

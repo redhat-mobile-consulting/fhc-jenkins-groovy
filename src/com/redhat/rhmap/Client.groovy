@@ -76,7 +76,7 @@ def emailBuild(emailList, projectName, targetEnv, appId, projectId, buildOutput,
   mail bcc:'', body: body, cc: '', from: '', replyTo: '', subject: "[${projectName}] Build android", to: '${emailList}' 
 }
 
-def tagCode(tag,credentialId){
+def tagCode(tag,credentialId,branchName){
     def note;
     sshagent([credentialId]) {
         def hasRemote=sh returnStdout: true, script: 'git ls-remote origin build'
@@ -88,7 +88,7 @@ def tagCode(tag,credentialId){
         }else{
             note=sh returnStdout: true, script: 'git shortlog HEAD'
         }
-        sh 'git push origin develop:build'
+        sh 'git push origin ${branchName}:build'
         sh "git tag -f ${tag}"
         sh "git push origin ${tag} --force"
     }
