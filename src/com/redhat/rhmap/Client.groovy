@@ -41,10 +41,20 @@ def mailRelease(releaseNote, subject, toList){
 
 def buildAndroid(clientAppId,projectId, cloudAppId, targetEnv, branchName,dateTime){
   
-  def output=sh returnStdout: true, script: "fhc build app=${clientAppId} tag=0.0.1-ci-${targetEnv}-${dateTime} destination=android git-branch=${branchName} project=${projectId} cloud_app=${cloudAppId} environment=${targetEnv}"
-  return output  
+  def output=sh returnStdout: true, script: "fhc build app=${clientAppId} tag=0.0.1-ci-${targetEnv}-${dateTime} destination=android git-branch=${branchName} project=${projectId} cloud_app=${cloudAppId} environment=${targetEnv} download=true --json"
+  return parseBuildOutput(output);
 }
-
+def parseBuildOutput(outputStr){
+  def file=sh returnStdout:true, script: "console.log(JSON.parse('${outputStr}')[1].download.file;)"
+  def link=sh returnStdout:true, script: "console.log(JSON.parse('${outputStr}')[0][0].action.url;)"
+  return [
+    file:file.trim(),
+    link:link.trim()
+  ]
+}
+def uploadAppStore(storeId, platform, filePath){
+  sh "fhc admin-storeitems uploadbinary ${storeId} ${platform} ${filePath}"
+}
 def genTag(targetEnv,dateTime,destination){
   return "${destination}-${targetEnv}-${dateTime}"
 }
