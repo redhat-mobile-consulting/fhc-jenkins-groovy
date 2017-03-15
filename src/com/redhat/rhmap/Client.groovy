@@ -45,8 +45,10 @@ def buildAndroid(clientAppId,projectId, cloudAppId, targetEnv, branchName,dateTi
   return parseBuildOutput(output);
 }
 def parseBuildOutput(outputStr){
-  def file=sh returnStdout:true, script: "console.log(JSON.parse('${outputStr}')[1].download.file;)"
-  def link=sh returnStdout:true, script: "console.log(JSON.parse('${outputStr}')[0][0].action.url;)"
+  env['tmpOutputStr']=outputStr
+  def file=sh returnStdout:true, script: "node -e 'console.log(JSON.parse(process.env.tmpOutputStr)[1].download.file)'"
+  def link=sh returnStdout:true, script: "node -e 'console.log(JSON.parse(process.env.tmpOutputStr)[0][0].action.url)'"
+  env['tmpOutputStr']=''
   return [
     file:file.trim(),
     link:link.trim()
